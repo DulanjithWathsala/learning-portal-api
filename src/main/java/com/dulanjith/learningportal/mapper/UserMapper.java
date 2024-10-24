@@ -20,14 +20,16 @@ public class UserMapper {
 
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
-        userDTO.setFirstName(userDTO.getFirstName());
-        userDTO.setLastName(userDTO.getLastName());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
 
         userDTO.setRole(user.getRole().name());
         userDTO.setStatus(user.getStatus().name());
 
-        userDTO.setCreatedAt(user.getCreatedAt().format(formatter));
-        userDTO.setUpdatedAt(user.getUpdatedAt().format(formatter));
+        userDTO.setCreatedAt(user.getCreatedAt() != null
+                ? user.getCreatedAt().format(formatter) : null);
+        userDTO.setUpdatedAt(user.getUpdatedAt() != null
+                ? user.getUpdatedAt().format(formatter) : null);
 
         return userDTO;
     }
@@ -35,8 +37,8 @@ public class UserMapper {
     public static User toEntity(UserDTO userDTO) {
         User user = new User();
 
-        user.setEmail(user.getEmail());
-        user.setFirstName(user.getFirstName());
+        user.setEmail(userDTO.getEmail());
+        user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
 
         user.setRole(Role.valueOf(userDTO.getRole()));
