@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyExistExceptions(UserAlreadyExistsException ex) {
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(UserAlreadyExistsException ex) {
         log.error("Already exists exception occurred | {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.builder()
