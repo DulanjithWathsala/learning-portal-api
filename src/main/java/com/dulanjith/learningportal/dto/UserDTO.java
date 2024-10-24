@@ -1,7 +1,5 @@
 package com.dulanjith.learningportal.dto;
 
-import com.dulanjith.learningportal.enums.Role;
-import com.dulanjith.learningportal.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
