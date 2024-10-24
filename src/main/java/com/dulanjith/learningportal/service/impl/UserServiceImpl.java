@@ -1,5 +1,6 @@
 package com.dulanjith.learningportal.service.impl;
 
+import com.dulanjith.learningportal.dto.UserDTO;
 import com.dulanjith.learningportal.repository.UserRepository;
 import com.dulanjith.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,4 +11,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    @Override
+    public UserDTO register(UserDTO userDTO) {
+        return null;
+    }
 }
