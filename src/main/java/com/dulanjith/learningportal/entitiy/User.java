@@ -1,6 +1,7 @@
 package com.dulanjith.learningportal.entitiy;
 
 import com.dulanjith.learningportal.enums.Role;
+import com.dulanjith.learningportal.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Profile profile;
