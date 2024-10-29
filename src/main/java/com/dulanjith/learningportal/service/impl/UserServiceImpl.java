@@ -1,13 +1,20 @@
 package com.dulanjith.learningportal.service.impl;
 
-import com.dulanjith.learningportal.dto.UserDTO;
+import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.entitiy.User;
 import com.dulanjith.learningportal.exception.UserAlreadyExistsException;
+import com.dulanjith.learningportal.exception.UserNotFoundException;
 import com.dulanjith.learningportal.mapper.UserMapper;
 import com.dulanjith.learningportal.repository.UserRepository;
 import com.dulanjith.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,16 +23,48 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDTO register(UserDTO userDTO) {
-        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+    public UserDto register(UserDto userDto) {
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(
-                    "User already exists with the email: " + userDTO.getEmail());
+                    "User already exists with the email: " + userDto.getEmail());
         }
 
-        User entity = UserMapper.toEntity(userDTO);
-
-        User saved = userRepository.save(entity);
-
-        return UserMapper.toDTO(saved);
+        return UserMapper.toDTO(
+                userRepository.save(UserMapper.toEntity(userDto))
+        );
     }
+
+    @Override
+    public UserDto retrieveUserByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("User not found for the email: " + email);
+        }
+
+        return UserMapper.toDTO(optionalUser.get());
+    }
+
+    @Override
+    public Page<UserDto> getAllUsers(int page, int size) {
+        return userRepository.findAll(PageRequest.of(page, size))
+                        .map(UserMapper::toDTO);
+    }
+
+    @Override
+    public Map<String, String> updateEmail(String prevEmail, String newEmail) {
+        Optional<User> optionalUser = userRepository.findByEmail(prevEmail);
+
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("User not found for the email: " + prevEmail);
+        }
+
+        User user = optionalUser.get();
+        user.setEmail(newEmail);
+        userRepository.save(user);
+
+        return Collections.singletonMap("Success", "Email updated successfully");
+    }
+
+
 }
