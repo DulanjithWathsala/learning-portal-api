@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
             emailService.sendHtmlEmail(
                     userDto.getEmail(), "Welcome to our community!", htmlMessage);
         } catch (MessagingException ex) {
-            log.error("Failed to send HTML email to {}", userDto.getFirstName());
+            log.error("Failed to send HTML email to {}", userDto.getEmail());
         }
 
         return UserMapper.toDTO(
