@@ -8,6 +8,8 @@ import com.dulanjith.learningportal.mapper.UserMapper;
 import com.dulanjith.learningportal.repository.UserRepository;
 import com.dulanjith.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,6 +41,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return UserMapper.toDTO(optionalUser.get());
+    }
+
+    @Override
+    public Page<UserDto> getAllUsers(int page, int size) {
+        return userRepository.findAll(PageRequest.of(page, size))
+                        .map(UserMapper::toDTO);
     }
 
 
