@@ -3,6 +3,8 @@ package com.dulanjith.learningportal.service;
 import com.dulanjith.learningportal.dto.UserDto;
 import org.springframework.data.domain.Page;
 
+import java.util.Map;
+
 public interface UserService {
 
     UserDto register(UserDto userDto);
@@ -10,4 +12,6 @@ public interface UserService {
     UserDto retrieveUserByEmail(String email);
 
     Page<UserDto> getAllUsers(int page, int size);
+
+    Map<String, String> updateEmail(String prevEmail, String newEmail);
 }

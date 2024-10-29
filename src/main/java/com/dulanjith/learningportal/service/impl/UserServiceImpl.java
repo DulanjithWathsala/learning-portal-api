@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -47,6 +49,21 @@ public class UserServiceImpl implements UserService {
     public Page<UserDto> getAllUsers(int page, int size) {
         return userRepository.findAll(PageRequest.of(page, size))
                         .map(UserMapper::toDTO);
+    }
+
+    @Override
+    public Map<String, String> updateEmail(String prevEmail, String newEmail) {
+        Optional<User> optionalUser = userRepository.findByEmail(prevEmail);
+
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException("User not found for the email: " + prevEmail);
+        }
+
+        User user = optionalUser.get();
+        user.setEmail(newEmail);
+        userRepository.save(user);
+
+        return Collections.singletonMap("Success", "Email updated successfully");
     }
 
 
