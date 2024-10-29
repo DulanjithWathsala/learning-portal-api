@@ -1,6 +1,6 @@
 package com.dulanjith.learningportal.controller;
 
-import com.dulanjith.learningportal.dto.UserDTO;
+import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserDTO register(@RequestBody UserDTO userDTO) {
+    public UserDto register(@RequestBody UserDto userDTO) {
         return userService.register(userDTO);
     }
 }

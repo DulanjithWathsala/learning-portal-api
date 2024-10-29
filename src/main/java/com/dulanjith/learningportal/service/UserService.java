@@ -1,8 +1,8 @@
 package com.dulanjith.learningportal.service;
 
-import com.dulanjith.learningportal.dto.UserDTO;
+import com.dulanjith.learningportal.dto.UserDto;
 
 public interface UserService {
 
-    UserDTO register(UserDTO userDTO);
+    UserDto register(UserDto userDTO);
 }

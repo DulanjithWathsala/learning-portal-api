@@ -1,6 +1,6 @@
 package com.dulanjith.learningportal.service.impl;
 
-import com.dulanjith.learningportal.dto.UserDTO;
+import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.entitiy.User;
 import com.dulanjith.learningportal.exception.UserAlreadyExistsException;
 import com.dulanjith.learningportal.mapper.UserMapper;
@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDTO register(UserDTO userDTO) {
+    public UserDto register(UserDto userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(
                     "User already exists with the email: " + userDTO.getEmail());

@@ -1,7 +1,7 @@
 package com.dulanjith.learningportal.mapper;
 
 
-import com.dulanjith.learningportal.dto.UserDTO;
+import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.entitiy.User;
 import com.dulanjith.learningportal.enums.Role;
 import com.dulanjith.learningportal.enums.Status;
@@ -15,8 +15,8 @@ public class UserMapper {
 
     private UserMapper() {}
 
-    public static UserDTO toDTO(User user) {
-        UserDTO userDTO = new UserDTO();
+    public static UserDto toDTO(User user) {
+        UserDto userDTO = new UserDto();
 
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
@@ -34,7 +34,7 @@ public class UserMapper {
         return userDTO;
     }
 
-    public static User toEntity(UserDTO userDTO) {
+    public static User toEntity(UserDto userDTO) {
         User user = new User();
 
         user.setEmail(userDTO.getEmail());
