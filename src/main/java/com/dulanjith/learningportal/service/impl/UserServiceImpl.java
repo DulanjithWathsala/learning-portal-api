@@ -16,16 +16,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDto register(UserDto userDTO) {
-        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+    public UserDto register(UserDto userDto) {
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(
-                    "User already exists with the email: " + userDTO.getEmail());
+                    "User already exists with the email: " + userDto.getEmail());
         }
 
-        User entity = UserMapper.toEntity(userDTO);
+        User entity = UserMapper.toEntity(userDto);
 
         User saved = userRepository.save(entity);
 
         return UserMapper.toDTO(saved);
+    }
+
+    @Override
+    public UserDto update(UserDto userDto) {
+        return null;
     }
 }
