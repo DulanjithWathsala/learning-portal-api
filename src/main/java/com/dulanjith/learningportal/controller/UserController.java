@@ -17,10 +17,8 @@ public class UserController {
         return userService.register(userDto);
     }
 
-    @PutMapping("/update")
-    public UserDto update(@RequestBody UserDto userDto) {
-        return userService.update(userDto);
+    @GetMapping("/by-email")
+    public UserDto retrieveUserByEmail(@RequestParam String email) {
+        return userService.retrieveUserByEmail(email);
     }
-
-
 }

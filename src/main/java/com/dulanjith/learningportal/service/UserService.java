@@ -6,5 +6,5 @@ public interface UserService {
 
     UserDto register(UserDto userDto);
 
-    UserDto update(UserDto userDto);
+    UserDto retrieveUserByEmail(String email);
 }
