@@ -2,6 +2,7 @@ package com.dulanjith.learningportal.controller;
 
 import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.service.UserService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,8 +37,8 @@ public class UserController {
 
     @PatchMapping("/update-email")
     public ResponseEntity<Map<String, String>> updateEmail(
-            @Email @RequestParam String prevEmail,
-            @Email @RequestParam String newEmail) {
+             @RequestParam String prevEmail,
+             @RequestParam String newEmail) {
         return ResponseEntity.ok(userService.updateEmail(prevEmail, newEmail));
     }
 }
