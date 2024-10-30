@@ -2,6 +2,7 @@ package com.dulanjith.learningportal.entitiy;
 
 import com.dulanjith.learningportal.enums.Role;
 import com.dulanjith.learningportal.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -39,9 +40,11 @@ public class User {
     private Status status;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Profile profile;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Review> reviews;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -50,6 +53,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    @JsonIgnore
     private Set<Course> courses;
 
     private LocalDateTime createdAt;

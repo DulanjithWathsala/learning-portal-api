@@ -7,7 +7,10 @@ import com.dulanjith.learningportal.exception.UserNotFoundException;
 import com.dulanjith.learningportal.mapper.UserMapper;
 import com.dulanjith.learningportal.repository.UserRepository;
 import com.dulanjith.learningportal.service.UserService;
+import com.dulanjith.learningportal.util.EmailService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,15 +21,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Override
     public UserDto register(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(
                     "User already exists with the email: " + userDto.getEmail());
+        }
+
+        String htmlMessage = "<html><body>" +
+                "<h1>Welcome to Learning Portal!</h1>" +
+                "<p>Hello <strong>" + userDto.getFirstName() + "</strong>,</p>" +
+                "<p>We’re excited to have you join us. Explore, connect, and grow with us!</p>" +
+                "<p>Best Regards,<br>Learning Portal Team</p>" +
+                "</body></html>";
+
+        try {
+            emailService.sendHtmlEmail(
+                    userDto.getEmail(), "Welcome to our community!", htmlMessage);
+        } catch (MessagingException ex) {
+            log.error("Failed to send HTML email to {}", userDto.getEmail());
         }
 
         return UserMapper.toDTO(
