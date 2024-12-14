@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public UserDto register(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(
-                    "User already exists with the email: " + userDto.getEmail());
+                    "User already exist with the email: " + userDto.getEmail());
         }
 
         String htmlMessage = "<html><body>" +
