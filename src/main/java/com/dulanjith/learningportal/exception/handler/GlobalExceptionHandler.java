@@ -25,7 +25,8 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(UserAlreadyExistsException ex) {
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
+            UserAlreadyExistsException ex) {
         log.error("User already exists exception occurred | {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponse.builder()
@@ -33,7 +34,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(UserNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
+            UserNotFoundException ex) {
         log.error("User not found exception occurred | {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorResponse.builder()
