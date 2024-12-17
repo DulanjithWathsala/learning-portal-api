@@ -1,23 +1,24 @@
 package com.dulanjith.learningportal.service.impl;
 
 import com.dulanjith.learningportal.dto.UserDto;
+import com.dulanjith.learningportal.entitiy.Authority;
 import com.dulanjith.learningportal.entitiy.User;
 import com.dulanjith.learningportal.exception.UserAlreadyExistsException;
 import com.dulanjith.learningportal.exception.UserNotFoundException;
 import com.dulanjith.learningportal.mapper.UserMapper;
 import com.dulanjith.learningportal.repository.UserRepository;
 import com.dulanjith.learningportal.service.UserService;
-import com.dulanjith.learningportal.util.EmailService;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto register(UserDto userDto) {
@@ -34,23 +35,12 @@ public class UserServiceImpl implements UserService {
                     "User already exist with the email: " + userDto.getEmail());
         }
 
-        String htmlMessage = "<html><body>" +
-                "<h1>Welcome to Learning Portal!</h1>" +
-                "<p>Hello <strong>" + userDto.getFirstName() + "</strong>,</p>" +
-                "<p>We’re excited to have you join us. Explore, connect, and grow with us!</p>" +
-                "<p>Best Regards,<br>Learning Portal Team</p>" +
-                "</body></html>";
+        User user = UserMapper.toEntity(userDto);
+        user.setAuthorities(Set.of(
+                new Authority("ROLE_" + userDto.getRole(), user)));
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        try {
-            emailService.sendHtmlEmail(
-                    userDto.getEmail(), "Welcome to our community!", htmlMessage);
-        } catch (MessagingException ex) {
-            log.error("Failed to send HTML email to {}", userDto.getEmail());
-        }
-
-        return UserMapper.toDTO(
-                userRepository.save(UserMapper.toEntity(userDto))
-        );
+        return UserMapper.toDTO(userRepository.save(user));
     }
 
     @Override
