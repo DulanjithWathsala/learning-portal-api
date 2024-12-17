@@ -3,6 +3,7 @@ package com.dulanjith.learningportal.entitiy;
 import com.dulanjith.learningportal.enums.Role;
 import com.dulanjith.learningportal.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,9 @@ public class User {
     @Email
     @Column(unique = true, nullable = false)
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     private String firstName;
     private String lastName;
@@ -58,6 +62,10 @@ public class User {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Authority> authorities;
 
     @PrePersist
     protected void onCreate() {
