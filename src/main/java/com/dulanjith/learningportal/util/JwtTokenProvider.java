@@ -42,12 +42,8 @@ public class JwtTokenProvider {
     }
 
     public Claims validateToken(String token) {
-        try {
-            SecretKey key = generateSecretKey();
-            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
-        } catch (Exception ex) {
-            throw new BadCredentialsException("Invalid token received!");
-        }
+        SecretKey key = generateSecretKey();
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 
     private SecretKey generateSecretKey() {
