@@ -19,5 +19,5 @@ spring:
             enable: true
 
 jwt:
-  secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION_TIME}
+  secret: ${JWT_SECRET_KEY:JWT_SECRET_KEY_DEFAULT}
+  expiration: ${JWT_EXPIRATION_TIME:604800000}
