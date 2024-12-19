@@ -36,7 +36,7 @@ public class JwtTokenProvider {
                 .claim("username", username)
                 .claim("authorities", authorities)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationTime))
+                .expiration(new Date(System.currentTimeMillis() + this.expirationTime))
                 .signWith(key).compact();
     }
 
@@ -46,6 +46,6 @@ public class JwtTokenProvider {
     }
 
     private SecretKey generateSecretKey() {
-        return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(this.secretKey.getBytes(StandardCharsets.UTF_8));
     }
 }

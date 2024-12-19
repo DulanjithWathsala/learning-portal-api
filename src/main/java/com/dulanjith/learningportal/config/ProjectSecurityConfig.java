@@ -2,8 +2,6 @@ package com.dulanjith.learningportal.config;
 
 import com.dulanjith.learningportal.filter.JwtTokenGeneratorFilter;
 import com.dulanjith.learningportal.filter.JwtTokenValidatorFilter;
-import com.dulanjith.learningportal.util.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,10 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@RequiredArgsConstructor
 public class ProjectSecurityConfig {
-
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -38,7 +33,7 @@ public class ProjectSecurityConfig {
                 .addFilterBefore(new JwtTokenValidatorFilter(),
                         BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/user/register").permitAll()
+                .requestMatchers("/user/register", "/user/login").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
