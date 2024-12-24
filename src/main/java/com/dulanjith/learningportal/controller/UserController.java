@@ -1,13 +1,11 @@
 package com.dulanjith.learningportal.controller;
 
-import com.dulanjith.learningportal.constant.ApplicationConstants;
 import com.dulanjith.learningportal.dto.LoginRequestDto;
 import com.dulanjith.learningportal.dto.LoginResponseDto;
 import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

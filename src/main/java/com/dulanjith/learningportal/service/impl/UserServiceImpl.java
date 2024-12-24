@@ -5,6 +5,7 @@ import com.dulanjith.learningportal.dto.LoginRequestDto;
 import com.dulanjith.learningportal.dto.LoginResponseDto;
 import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.entitiy.Authority;
+import com.dulanjith.learningportal.entitiy.Profile;
 import com.dulanjith.learningportal.entitiy.User;
 import com.dulanjith.learningportal.exception.UserAlreadyExistsException;
 import com.dulanjith.learningportal.exception.UserNotFoundException;
@@ -13,7 +14,6 @@ import com.dulanjith.learningportal.repository.UserRepository;
 import com.dulanjith.learningportal.service.UserService;
 import com.dulanjith.learningportal.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,6 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -51,6 +50,14 @@ public class UserServiceImpl implements UserService {
         user.setAuthorities(Set.of(
                 new Authority("ROLE_" + userDto.getRole(), user)));
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        user.setProfile(new Profile(
+                null,
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getEmail(),
+                null,
+                user));
 
         return UserMapper.toDTO(userRepository.save(user));
     }
