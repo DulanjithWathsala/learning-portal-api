@@ -1,5 +1,7 @@
 package com.dulanjith.learningportal.controller;
 
+import com.dulanjith.learningportal.dto.LoginRequestDto;
+import com.dulanjith.learningportal.dto.LoginResponseDto;
 import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +40,11 @@ public class UserController {
              @RequestParam String prevEmail,
              @RequestParam String newEmail) {
         return ResponseEntity.ok(userService.updateEmail(prevEmail, newEmail));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> loginApi(
+            @RequestBody LoginRequestDto loginRequestDto) {
+        return userService.apiLogin(loginRequestDto);
     }
 }

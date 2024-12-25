@@ -17,3 +17,7 @@ spring:
           auth: true
           starttls:
             enable: true
+
+jwt:
+  secret: ${JWT_SECRET_KEY:aP98WZQtnYvH4vFiw3kM5th7XoFVF5DkNvAfNhtrPTM=}
+  expiration: ${JWT_EXPIRATION_TIME:604800000}

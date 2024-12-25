@@ -18,6 +18,8 @@ public class Profile {
 
     private String firstName;
     private String lastName;
+    private String email;
+    private String profilePictureUrl;
 
     @OneToOne
     @JoinColumn(name = "user_id")
