@@ -4,9 +4,8 @@ import com.dulanjith.learningportal.dto.ProfileDto;
 import com.dulanjith.learningportal.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +22,7 @@ public class ProfileController {
     }
 
     @GetMapping("/my-profile")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProfileDto> retrieve(@RequestParam String email) {
         return ResponseEntity.ok(profileService.retrieve(email));
     }
