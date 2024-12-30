@@ -1,5 +1,6 @@
 package com.dulanjith.learningportal.config;
 
+import com.dulanjith.learningportal.enums.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,7 +28,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Invalid password!");
+            throw new BadCredentialsException(ResponseCode.BAD_CREDENTIALS.getMessage());
         }
 
         return new UsernamePasswordAuthenticationToken(
