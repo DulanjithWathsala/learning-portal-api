@@ -7,6 +7,7 @@ import com.dulanjith.learningportal.dto.UserDto;
 import com.dulanjith.learningportal.entitiy.Authority;
 import com.dulanjith.learningportal.entitiy.Profile;
 import com.dulanjith.learningportal.entitiy.User;
+import com.dulanjith.learningportal.enums.ResponseCode;
 import com.dulanjith.learningportal.exception.UserAlreadyExistsException;
 import com.dulanjith.learningportal.exception.UserNotFoundException;
 import com.dulanjith.learningportal.mapper.UserMapper;
@@ -42,8 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto register(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException(
-                    "User already exist with the email: " + userDto.getEmail());
+            throw new UserAlreadyExistsException(ResponseCode.USER_ALREADY_EXIST.getMessage());
         }
 
         User user = UserMapper.toEntity(userDto);
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("User not found for the email: " + email);
+            throw new UserNotFoundException(ResponseCode.USER_NOT_FOUND.getMessage());
         }
 
         return UserMapper.toDTO(optionalUser.get());
@@ -84,14 +84,15 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByEmail(prevEmail);
 
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("User not found for the email: " + prevEmail);
+            throw new UserNotFoundException(ResponseCode.USER_NOT_FOUND.getMessage());
         }
 
         User user = optionalUser.get();
         user.setEmail(newEmail);
         userRepository.save(user);
 
-        return Collections.singletonMap("Success", "Email updated successfully");
+        return Collections.singletonMap(
+                ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @Override
@@ -102,11 +103,11 @@ public class UserServiceImpl implements UserService {
         try {
             authResponse = authenticationManager.authenticate(authentication);
         } catch (Exception ex) {
-            throw new BadCredentialsException("Invalid username or password", ex);
+            throw new BadCredentialsException(ResponseCode.BAD_CREDENTIALS.getMessage(), ex);
         }
 
         if (authResponse == null || !authResponse.isAuthenticated()) {
-            throw new BadCredentialsException("Authentication failed: Invalid username or password");
+            throw new BadCredentialsException(ResponseCode.BAD_CREDENTIALS.getMessage());
         }
 
         String generatedToken = "Bearer " + jwtTokenProvider.generateToken(authResponse);
