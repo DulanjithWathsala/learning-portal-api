@@ -2,6 +2,7 @@ package com.dulanjith.learningportal.service.impl;
 
 import com.dulanjith.learningportal.dto.ProfileDto;
 import com.dulanjith.learningportal.entitiy.Profile;
+import com.dulanjith.learningportal.enums.ResponseCode;
 import com.dulanjith.learningportal.exception.UserNotFoundException;
 import com.dulanjith.learningportal.repository.ProfileRepository;
 import com.dulanjith.learningportal.service.ProfileService;
@@ -19,7 +20,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileDto updateProfilePicture(String profilePictureUrl, String email) {
         Profile profile = profileRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found for the given email"));
+                .orElseThrow(() -> new UserNotFoundException(ResponseCode.USER_NOT_FOUND.getMessage()));
 
         profile.setProfilePictureUrl(profilePictureUrl);
 
@@ -30,7 +31,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDto retrieve(String email) {
         return objectMapper.convertValue(
                 profileRepository.findByEmail(email).orElseThrow(() ->
-                        new UserNotFoundException("User not found for the given email")),
+                        new UserNotFoundException(ResponseCode.USER_NOT_FOUND.getMessage())),
                 ProfileDto.class);
     }
 }
