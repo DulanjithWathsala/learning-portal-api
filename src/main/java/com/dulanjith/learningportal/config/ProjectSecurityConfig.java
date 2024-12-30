@@ -36,7 +36,7 @@ public class ProjectSecurityConfig {
                 .addFilterBefore(new JwtTokenValidatorFilter(),
                         BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/user/register", "/user/login").permitAll()
+                .requestMatchers("/api/user/register", "/api/user/login").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
