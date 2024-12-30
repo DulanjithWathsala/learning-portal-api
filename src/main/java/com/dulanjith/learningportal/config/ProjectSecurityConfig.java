@@ -1,5 +1,6 @@
 package com.dulanjith.learningportal.config;
 
+import com.dulanjith.learningportal.exception.handler.CustomAccessDeniedHandler;
 import com.dulanjith.learningportal.filter.JwtTokenGeneratorFilter;
 import com.dulanjith.learningportal.filter.JwtTokenValidatorFilter;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,8 @@ public class ProjectSecurityConfig {
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
+        http.exceptionHandling(exceptionHandlingConfig ->
+                exceptionHandlingConfig.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
     }
 
