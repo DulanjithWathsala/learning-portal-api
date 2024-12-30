@@ -17,7 +17,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/new")
-    public ResponseEntity<CourseDto> addCourse(@RequestBody CourseDto courseDto) {
-        return ResponseEntity.ok(courseService.addCourse(courseDto));
+    public ResponseEntity<CourseDto> add(@RequestBody CourseDto courseDto) {
+        return ResponseEntity.ok(courseService.add(courseDto));
     }
 }
