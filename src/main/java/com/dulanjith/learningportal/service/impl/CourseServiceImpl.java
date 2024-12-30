@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
@@ -22,4 +25,16 @@ public class CourseServiceImpl implements CourseService {
         Course course = mapper.convertValue(courseDto, Course.class);
         return mapper.convertValue(courseRepository.save(course), CourseDto.class);
     }
+
+    @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
+    public List<CourseDto> retrieveAll() {
+        List<CourseDto> courseDtoList = new ArrayList<>();
+        courseRepository.findAll().forEach(
+                course -> courseDtoList.add(mapper.convertValue(course, CourseDto.class)));
+
+        return courseDtoList;
+    }
+
+
 }
